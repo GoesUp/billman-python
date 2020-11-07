@@ -189,11 +189,11 @@ def get_family(option):
     seen.sort(key=lambda r: r.date_due)
     return seen
 
-def set_billPaid(id_bill, amount, credits):
+def set_billPaid(id_bill, credits):
     for bill in state.bills:
         if bill.id == id_bill:
             if credits:
-                state.users[0].local_credit -= amount
+                state.users[0].local_credit -= bill.total
             bill.date_payment = str(datetime.today().strftime('%Y-%m-%d'))
             break
     return
@@ -205,3 +205,9 @@ def set_transactCredits(id_recipient, amount):
             state.users[0].local_credit -= amount
             break
     return
+
+
+def get_user_by_id(user_id) -> User:
+    for user in state.users:
+        if user.id == user_id:
+            return user

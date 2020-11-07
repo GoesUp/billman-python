@@ -1,4 +1,5 @@
 from datetime import timedelta
+from datetime import datetime
 
 from fastapi.params import Depends
 from fastapi.routing import APIRouter
@@ -153,9 +154,9 @@ def bill_familyNo(state: State = Depends(get_state)):
     return get_family(False)
 
 
-@router.post("/bill/pay")
-def bill_pay(id_bill: int, amount: float, credits: bool, state: State = Depends(get_state)):
-    set_billPaid(id_bill, amount, credits)
+@router.get("/bill/pay")
+def bill_pay(id_bill: int, credits: bool, state: State = Depends(get_state)):
+    set_billPaid(id_bill, credits)
     return
 
 
@@ -195,3 +196,19 @@ async def get_stat_value_for_week(user_id: int, state: State = Depends(get_state
         if bill.id_payer == user_id:
             stats[bill.date_payment] = bill.total
     return list(stats.values())
+
+
+@router.get("/statistics/{user_id}/donations")
+async def get_stat_donations(user_id: int, state: State = Depends(get_state)) -> List[float]:
+    stats = {}
+    base = datetime.today()
+    date_list = [(base - timedelta(days=x)) for x in range(30)]
+    date_list.reverse()
+
+    for datum in date_list:
+        stats["{year}-{month}-{day}".format(year=datum.year, month=datum.month, day=datum.day)] = 0
+    for bill in state.bills:
+        if bill.id_payer == user_id and bill.category == "Community":
+            stats[bill.date_payment] = bill.total
+    return list(stats.values())
+
