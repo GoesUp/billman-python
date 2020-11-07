@@ -47,7 +47,7 @@ state = State(
         Community(id=0, cause="Omogočimo otrokom izlet v Črno goro!"),
         Community(id=0, cause="Zbiramo sredstva za male živali..."),
         Community(id=0, amount=1054.52, cause="Gregor, Maja in Barbara so lačni. Darujte!"),
-
+    ],
     bills=[
         Bill(
             category="Education",
@@ -114,7 +114,6 @@ state = State(
             IBAN_recipient="SI54789885636543218",
             visible_family="false"
         )
-
     ]
 )
 
