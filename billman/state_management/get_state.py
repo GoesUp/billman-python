@@ -189,6 +189,7 @@ def get_family(option):
     seen.sort(key=lambda r: r.date_due)
     return seen
 
+
 def set_billPaid(id_bill, credits):
     for bill in state.bills:
         if bill.id == id_bill:
