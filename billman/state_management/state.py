@@ -5,7 +5,7 @@ from typing import List, Set
 class Family(BaseModel):
     relations: Set[int] = None
 
-
+      
 class User(BaseModel):
     id: int
     name: str
@@ -15,11 +15,11 @@ class User(BaseModel):
     local_credit: float = 0.0
     family: Family
 
-
+      
 class Category(BaseModel):
     name: str
 
-
+      
 class Community(BaseModel):
     id: int
     goal: float
@@ -43,7 +43,7 @@ class Bill(BaseModel):
     IBAN_recipient: str
     visible_family: bool
 
-
+      
 class State(BaseModel):
     users: List[User]
     categories: List[Category]
