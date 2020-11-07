@@ -30,10 +30,12 @@ class Community(BaseModel):
 class Bill(BaseModel):
     id: int
     id_payer: int
+    short_name: str
     category: str
     reference: str
     date_payment: str
     date_due: str
+    date_issued: str
     total: float
     purpose: str
     code_purpose: str
