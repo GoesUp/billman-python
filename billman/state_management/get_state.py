@@ -44,10 +44,11 @@ state = State(
         Category(name="Other"),
     ],
     community=[
-        Community(id=0, amount=10.5, cause="Družini vidmajer je toča uničila streho. Pomagajte!"),
-        Community(id=0, cause="Omogočimo otrokom izlet v Črno goro!"),
-        Community(id=0, cause="Zbiramo sredstva za male živali..."),
-        Community(id=0, amount=1054.52, cause="Gregor, Maja in Barbara so lačni. Darujte!"),
+        Community(id=0, goal=100.5, collected=50.25, cause="Družini vidmajer je toča uničila streho. Pomagajte!"),
+        Community(id=1, goal=800.0, cause="Omogočimo otrokom izlet v Črno goro!"),
+        Community(id=2, goal=150, cause="Zbiramo sredstva za male živali..."),
+        Community(id=3, goal=1054.52, collected=72, cause="Gregor, Maja in Barbara so lačni. Darujte!"),
+        Community(id=4, goal=100, collected=100, cause="Stara mama Helga zbira denar za flamethrower7000"),
     ]
 )
 
