@@ -52,13 +52,22 @@ async def get_bills_for_user_id(user_id: int, state: State = Depends(get_state))
     return user_bills
 
 
+@router.get("/user/{user_id}/bills/paid")
+async def get_bills_for_user_id(user_id: int, state: State = Depends(get_state)) -> List[Bill]:
+    user_bills = []
+    for bill in state.bills:
+        if bill.id_payer == user_id and bill.date_payment != "":
+            user_bills.append(bill)
+    user_bills.sort(key=lambda x: x.date_payment, reverse=False)
+    return user_bills
+
+
 @router.get("/user/{user_id}/bills")
 async def get_bills_for_user_id(user_id: int, state: State = Depends(get_state)) -> List[Bill]:
     user_bills = []
     for bill in state.bills:
         if bill.id_payer == user_id and not bill.date_payment:
             user_bills.append(bill)
-
     user_bills.sort(key=lambda x: x.date_due, reverse=False)
     return user_bills
 

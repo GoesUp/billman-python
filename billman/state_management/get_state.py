@@ -139,6 +139,42 @@ state = State(
             BIC_bank_recipient="XLBA5174",
             IBAN_recipient="SI54789885636543218",
             visible_family="False"
+        ),
+        Bill(
+            id=5,
+            id_payer=0,
+            short_name="petrol",
+            category="Transport",
+            reference="SI20",
+            date_payment="", #ni placan - prazen string
+            date_due="2021-11-08",
+            date_issued="2020-10-12",
+            total=112.00,
+            purpose="Letna vinjeta",
+            code_purpose="OTHR",
+            recipient="Petrol d.d.",
+            recipient_address="Dunajska cesta 50, 1000 Ljubljana",
+            BIC_bank_recipient="EX6K3134",
+            IBAN_recipient="SI32134988563654321",
+            visible_family="True"
+        ),
+        Bill(
+            id=6,
+            id_payer=0,
+            short_name="t2",
+            category="Other",
+            reference="SI11",
+            date_payment="",
+            date_due="2021-11-08",
+            date_issued="2020-08-12",
+            total=5560.69,
+            purpose="Nakup opreme",
+            code_purpose="OTHR",
+            recipient="T-2 d.o.o.",
+            recipient_address="Verovškova 64a, 1000 Ljubljana",
+            BIC_bank_recipient="XLBA5174",
+            IBAN_recipient="SI54789885636543218",
+            visible_family="False"
         )
     ],
 )
