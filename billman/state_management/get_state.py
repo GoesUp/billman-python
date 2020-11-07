@@ -9,8 +9,8 @@ state = State(
             name="Gregor",
             surname="Gabrovšek",
             address="Čokoladna ulica nekje",
-            bancAccNumber="SI56293847932865923",
-            localCredit="3.1",
+            banc_acc_number="SI56293847932865923",
+            local_credit="3.1",
             family=Family(relations={1, 10})
         ),
         User(
@@ -18,8 +18,8 @@ state = State(
             name="Miki",
             surname="Miška",
             address="Disneyland 16a",
-            bancAccNumber="SI563548463245356",
-            localCredit="8327947197",
+            banc_acc_number="SI563548463245356",
+            local_credit="8327947197",
             family=Family(relations={0})
         ),
         User(
@@ -27,8 +27,8 @@ state = State(
             name="Mojca",
             surname="Pokrajculja",
             address="Lonček 113",
-            bancAccNumber="SI563453636865923",
-            localCredit="50.50",
+            banc_acc_number="SI563453636865923",
+            local_credit="50.50",
             family=Family(relations=set())
         )
     ],

@@ -11,8 +11,8 @@ class User(BaseModel):
     name: str
     surname: str
     address: str
-    bancAccNumber: str
-    localCredit: float
+    banc_acc_number: str
+    local_credit: float = 0.0
     family: Family
 
 
