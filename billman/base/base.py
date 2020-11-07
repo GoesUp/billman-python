@@ -167,7 +167,7 @@ def bill_transactFam(id_recipient: int, amount: float, state: State = Depends(ge
 
 # ----------------------- STATISTIKA
 
-@router.get("/statistics/{user_id}/value-per-day")
+@router.get("/statistics/{user_id}/value-for-month")
 async def get_stat_value_per_day(user_id: int, state: State = Depends(get_state)) -> List[float]:
     stats = {}
     base = datetime.today()
@@ -182,7 +182,7 @@ async def get_stat_value_per_day(user_id: int, state: State = Depends(get_state)
     return list(stats.values())
 
 
-@router.get("/statistics/{user_id}/value-per-day")
+@router.get("/statistics/{user_id}/value-for-week")
 async def get_stat_value_for_week(user_id: int, state: State = Depends(get_state)) -> List[float]:
     stats = {}
     base = datetime.today()
