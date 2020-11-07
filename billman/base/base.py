@@ -77,6 +77,17 @@ async def get_bills_for_user_id(user_id: int, state: State = Depends(get_state))
     return user_bills
 
 
+@router.get("/user/{user_id}/bills/recent")
+async def get_bills_recent(user_id: int, state: State = Depends(get_state)) -> List[Bill]:
+    user_bills = []
+    for bill in state.bills:
+        if bill.id_payer == user_id and not bill.date_payment:
+            if abs(datetime.strptime(bill.date_due, "%Y-%m-%d") - datetime.today()).days <= 10:
+                user_bills.append(bill)
+    user_bills.sort(key=lambda x: x.date_due, reverse=False)
+    return user_bills
+
+
 @router.get("/community/active")
 async def get_active_community(state: State = Depends(get_state)) -> List[Community]:
     community = []
