@@ -8,5 +8,5 @@ router = APIRouter()
 
 
 @router.get("/")
-async def test(state: State = Depends(get_state)):
-    return "ayooo"
+async def test(state: State = Depends(get_state)) -> State:
+    return state
