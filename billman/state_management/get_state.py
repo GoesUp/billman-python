@@ -50,6 +50,8 @@ state = State(
     ],
     bills=[
         Bill(
+            id=0,
+            id_payer=2,
             category="Education",
             reference="SI12",
             date_payment="2020-01-12",
@@ -63,6 +65,8 @@ state = State(
             visible_family="true"
         ),
         Bill(
+            id=1,
+            id_payer=0,
             category="Sport",
             reference="SI15",
             date_payment="2020-19-11",
@@ -76,6 +80,8 @@ state = State(
             visible_family="false"
         ),
         Bill(
+            id=2,
+            id_payer=2,
             category="Transport",
             reference="SI20",
             date_payment="2020-30-12",
@@ -89,6 +95,8 @@ state = State(
             visible_family="true"
         ),
         Bill(
+            id=3,
+            id_payer=1,
             category="Fun",
             reference="SI20",
             date_payment="2020-12-11",
@@ -102,6 +110,8 @@ state = State(
             visible_family="false"
         ),
         Bill(
+            id=4,
+            id_payer=0,
             category="Other",
             reference="SI11",
             date_payment="2020-08-11",

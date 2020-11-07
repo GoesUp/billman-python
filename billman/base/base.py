@@ -47,6 +47,15 @@ def get_user_family(user_id: int, state: State = Depends(get_state)) -> Family:
             return user.family
 
 
+@router.get("/user/{user_id}/bills")
+def get_bills_for_user_id(user_id: int, state: State = Depends(get_state)) -> List[Bill]:
+    user_bills = []
+    for bill in state.bills:
+        if bill.id_payer == user_id:
+            user_bills.append(bill)
+    return user_bills
+
+
 @router.get("/community/active")
 def get_active_community(state: State = Depends(get_state)) -> List[Community]:
     community = []
@@ -63,3 +72,5 @@ def get_active_community(state: State = Depends(get_state)) -> List[Community]:
         if com.collected >= com.goal:
             community.append(com)
     return community
+
+
