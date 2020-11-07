@@ -180,7 +180,7 @@ async def bill_transactFam(id_recipient: int, amount: float, state: State = Depe
 # ----------------------- STATISTIKA
 
 @router.get("/statistics/{user_id}/value-for-month")
-async def get_stat_value_per_day(user_id: int, state: State = Depends(get_state)) -> List[float]:
+async def get_stat_value_for_month(user_id: int, state: State = Depends(get_state)) -> List[float]:
     stats = {}
     base = datetime.today()
     date_list = [(base - timedelta(days=x)) for x in range(30)]
@@ -204,8 +204,8 @@ async def get_stat_value_for_week(user_id: int, state: State = Depends(get_state
     for datum in date_list:
         stats["{year}-{month}-{day}".format(year=datum.year, month=datum.month, day=datum.day)] = 0
     for bill in state.bills:
-        if bill.id_payer == user_id:
-            stats[bill.date_payment] = bill.total
+        if bill.id_payer == user_id and bill.date_payment != "":
+            stats[bill.date_payment] += bill.total
     return list(stats.values())
 
 
@@ -222,4 +222,5 @@ async def get_stat_donations(user_id: int, state: State = Depends(get_state)) ->
         if bill.id_payer == user_id and bill.category == "Community":
             stats[bill.date_payment] = bill.total
     return list(stats.values())
+
 
