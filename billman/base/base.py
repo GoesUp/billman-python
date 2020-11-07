@@ -151,7 +151,7 @@ def bill_familyNo(state: State = Depends(get_state)):
     return get_family(False)
 
 @router.post("/bill/pay")
-def bill_pay(id_bill: int, amount, credits: float, state: State = Depends(get_state)):
+def bill_pay(id_bill: int, amount: float, credits: bool, state: State = Depends(get_state)):
     set_billPaid(id_bill, amount, credits)
     return
 
