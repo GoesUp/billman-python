@@ -202,10 +202,10 @@ async def get_stat_value_for_week(user_id: int, state: State = Depends(get_state
     date_list.reverse()
 
     for datum in date_list:
-        stats["{year}-{month}-{day}".format(year=datum.year, month=datum.month, day=datum.day)] = 0
+        stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x=0 if datum.day < 10 else "", y=0 if datum.month < 10 else "")] = 0
     for bill in state.bills:
-        if bill.id_payer == user_id and bill.date_payment in date_list:
-            stats[bill.date_payment] = stats[bill.date_payment] + bill.total
+        if bill.id_payer == user_id and bill.date_payment in stats.keys():
+            stats[bill.date_payment] += bill.total
     return list(stats.values())
 
 
