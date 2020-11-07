@@ -36,10 +36,17 @@ async def get_user_by_id(user_id: int, state: State = Depends(get_state)) -> Use
 
 
 @router.get("/user/{user_id}/family")
-async def get_user_family(user_id: int, state: State = Depends(get_state)) -> Family:
+async def get_user_family(user_id: int, state: State = Depends(get_state)) -> List[User]:
+    fam = []
     for user in state.users:
         if user.id == user_id:
-            return user.family
+            print("fam od userja: ")
+            main_user = user
+            print(main_user.family)
+    for u2 in state.users:
+        if main_user and u2.id in main_user.family:
+            fam.append(u2)
+    return fam
 
 
 @router.get("/user/{user_id}/bills/all")

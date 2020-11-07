@@ -2,10 +2,6 @@ from pydantic import BaseModel
 from typing import List, Set
 
 
-class Family(BaseModel):
-    relations: Set[int] = None
-
-      
 class User(BaseModel):
     id: int
     name: str
@@ -13,7 +9,7 @@ class User(BaseModel):
     address: str
     banc_acc_number: str
     local_credit: float = 0.0
-    family: Family
+    family: Set[int]
 
       
 class Category(BaseModel):

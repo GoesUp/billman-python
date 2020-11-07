@@ -10,7 +10,7 @@ state = State(
             address="Čokoladna ulica nekje",
             banc_acc_number="SI56293847932865923",
             local_credit="3.1",
-            family=Family(relations={1, 10})
+            family={1, 2}
         ),
         User(
             id=1,
@@ -19,7 +19,7 @@ state = State(
             address="Disneyland 16a",
             banc_acc_number="SI563548463245356",
             local_credit="8327947197",
-            family=Family(relations={0})
+            family={0, 2}
         ),
         User(
             id=2,
@@ -28,7 +28,7 @@ state = State(
             address="Lonček 113",
             banc_acc_number="SI563453636865923",
             local_credit="50.50",
-            family=Family(relations=set())
+            family={0, 1}
         )
     ],
     categories=[
@@ -244,7 +244,7 @@ def set_transactCredits(id_recipient, amount):
     return
 
 
-def get_user_by_id(user_id) -> User:
+async def get_user_by_id(user_id) -> User:
     for user in state.users:
         if user.id == user_id:
             return user
