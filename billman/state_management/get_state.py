@@ -52,7 +52,7 @@ state = State(
     bills=[
         Bill(
             id=0,
-            id_payer=2,
+            id_payer=0,
             short_name="univerzalj",
             category="Education",
             reference="SI12",
@@ -88,11 +88,11 @@ state = State(
         ),
         Bill(
             id=2,
-            id_payer=2,
+            id_payer=0,
             short_name="lpp",
             category="Transport",
             reference="SI20",
-            date_payment="2020-12-12",
+            date_payment="",
             date_due="2021-01-01",
             date_issued="2020-11-06",
             total=210.00,
@@ -106,7 +106,7 @@ state = State(
         ),
         Bill(
             id=3,
-            id_payer=1,
+            id_payer=0,
             short_name="petrol",
             category="Fun",
             reference="SI20",
@@ -128,7 +128,7 @@ state = State(
             short_name="t2",
             category="Other",
             reference="SI11",
-            date_payment="2020-11-08",
+            date_payment="",
             date_due="2021-03-04",
             date_issued="2020-05-12",
             total=5560.69,

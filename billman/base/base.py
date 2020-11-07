@@ -42,7 +42,7 @@ async def get_user_family(user_id: int, state: State = Depends(get_state)) -> Fa
             return user.family
 
 
-@router.get("/user/{user_id}/bills")
+@router.get("/user/{user_id}/bills/all")
 async def get_bills_for_user_id(user_id: int, state: State = Depends(get_state)) -> List[Bill]:
     user_bills = []
     for bill in state.bills:
@@ -56,8 +56,10 @@ async def get_bills_for_user_id(user_id: int, state: State = Depends(get_state))
 async def get_bills_for_user_id(user_id: int, state: State = Depends(get_state)) -> List[Bill]:
     user_bills = []
     for bill in state.bills:
-        if bill.id_payer == user_id:
+        if bill.id_payer == user_id and not bill.date_payment:
             user_bills.append(bill)
+
+    user_bills.sort(key=lambda x: x.date_due, reverse=False)
     return user_bills
 
 
@@ -211,5 +213,4 @@ async def get_stat_donations(user_id: int, state: State = Depends(get_state)) ->
         if bill.id_payer == user_id and bill.category == "Community":
             stats[bill.date_payment] = bill.total
     return list(stats.values())
-
 
