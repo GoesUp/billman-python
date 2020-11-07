@@ -1,6 +1,6 @@
 from fastapi.params import Depends
 from fastapi.routing import APIRouter
-from billman.state_management.get_state import get_state
+from billman.state_management.get_state import *
 from billman.state_management.state import State
 
 
