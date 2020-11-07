@@ -40,9 +40,7 @@ async def get_user_family(user_id: int, state: State = Depends(get_state)) -> Li
     fam = []
     for user in state.users:
         if user.id == user_id:
-            print("fam od userja: ")
             main_user = user
-            print(main_user.family)
     for u2 in state.users:
         if main_user and u2.id in main_user.family:
             fam.append(u2)
