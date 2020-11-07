@@ -1,4 +1,5 @@
 from billman.state_management.state import *
+from datetime import datetime
 
 state = State(
     users=[
@@ -58,7 +59,7 @@ state = State(
             date_payment="", #ni placan - prazen string
             date_due="2020-11-12",
             date_issued="2020-10-12",
-            total="21.02",
+            total=21.02,
             purpose="Vpisnina",
             code_purpose="STDY",
             recipient="Univerza v Ljubljani",
@@ -76,7 +77,7 @@ state = State(
             date_payment="2020-11-05",
             date_due="2020-12-11",
             date_issued="2020-10-12",
-            total="32.00",
+            total=32.00,
             purpose="Članarina za plavalni klub",
             code_purpose="MDCS",
             recipient="Plavalni klub Ilirija",
@@ -94,7 +95,7 @@ state = State(
             date_payment="2020-12-12",
             date_due="2021-01-01",
             date_issued="2020-11-06",
-            total="210.00",
+            total=210.00,
             purpose="IJPP",
             code_purpose="BUSB",
             recipient="LPP d.o.o.",
@@ -112,7 +113,7 @@ state = State(
             date_payment="", #ni placan - prazen string
             date_due="2021-11-11",
             date_issued="2020-07-12",
-            total="17.64",
+            total=17.64,
             purpose="Concert tickets",
             code_purpose="OTHR",
             recipient="Petrol d.d.",
@@ -130,7 +131,7 @@ state = State(
             date_payment="2020-11-08",
             date_due="2021-03-04",
             date_issued="2020-05-12",
-            total="5560.69",
+            total=5560.69,
             purpose="Internetne storitve",
             code_purpose="OTHR",
             recipient="T-2 d.o.o.",
@@ -187,3 +188,20 @@ def get_family(option):
             seen.append(bill)
     seen.sort(key=lambda r: r.date_due)
     return seen
+
+def set_billPaid(id_bill, amount, credits):
+    for bill in state.bills:
+        if bill.id == id_bill:
+            if credits:
+                state.users[0].local_credit -= amount
+            bill.date_payment = datetime.today().strftime('%Y-%m-%d')
+            break
+    return
+
+def set_transactCredits(id_recipient, amount):
+    for user in state.users:
+        if user.id == id_recipient:
+            user.local_credit += amount
+            state.users[0].local_credit -= amount
+            break
+    return
