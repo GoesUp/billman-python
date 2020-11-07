@@ -37,7 +37,8 @@ class Bill(BaseModel):
     total: float
     purpose: str
     code_purpose: str
-    recipient_and_address: str
+    recipient: str
+    recipient_address: str
     BIC_bank_recipient: str
     IBAN_recipient: str
     visible_family: bool

@@ -28,11 +28,6 @@ def all_categories(state: State = Depends(get_state)) -> List[Category]:
     return state.categories
 
 
-@router.get("/users")
-def test(state: State = Depends(get_state)) -> List[User]:
-    return state.users
-
-
 @router.get("/user/{user_id}")
 def get_user_by_id(user_id: int, state: State = Depends(get_state)) -> User:
     for user in state.users:
@@ -45,6 +40,24 @@ def get_user_family(user_id: int, state: State = Depends(get_state)) -> Family:
     for user in state.users:
         if user.id == user_id:
             return user.family
+
+
+@router.get("/user/{user_id}/bills")
+def get_bills_for_user_id(user_id: int, state: State = Depends(get_state)) -> List[Bill]:
+    user_bills = []
+    for bill in state.bills:
+        if bill.id_payer == user_id:
+            user_bills.append(bill)
+    return user_bills
+
+
+@router.get("/user/{user_id}/bills")
+def get_bills_for_user_id(user_id: int, state: State = Depends(get_state)) -> List[Bill]:
+    user_bills = []
+    for bill in state.bills:
+        if bill.id_payer == user_id:
+            user_bills.append(bill)
+    return user_bills
 
 
 @router.get("/user/{user_id}/bills")
