@@ -204,8 +204,8 @@ async def get_stat_value_for_week(user_id: int, state: State = Depends(get_state
     for datum in date_list:
         stats["{year}-{month}-{day}".format(year=datum.year, month=datum.month, day=datum.day)] = 0
     for bill in state.bills:
-        if bill.id_payer == user_id and bill.date_payment != "":
-            stats[bill.date_payment] += bill.total
+        if bill.id_payer == user_id and bill.date_payment in date_list:
+            stats[bill.date_payment] = stats[bill.date_payment] + bill.total
     return list(stats.values())
 
 
@@ -224,3 +224,38 @@ async def get_stat_donations(user_id: int, state: State = Depends(get_state)) ->
     return list(stats.values())
 
 
+
+# @router.get("/statistics/{user_id}/credits")
+# async def get_stat_credits(user_id: int, state: State = Depends(get_state)) -> List[float]:
+#     stats = {}
+#     base = datetime.today()
+#     date_list = [(base - timedelta(days=x)) for x in range(30)]
+#     date_list.reverse()
+#
+#     credits_today = 0
+#     for datum in date_list:
+#         stats["{year}-{month}-{day}".format(year=datum.year, month=datum.month, day=datum.day)] = 0
+#
+#     user = get_user_by_id(user_id)
+#     credits_today = user.local_credit
+#     statistics = [credits_today] * 30
+#
+#     datumi = []
+#     for bill in state.bills:
+#         if bill.id_payer == user_id:
+#             datumi.append([bill.date_payment, bill.total])
+#     datumi.sort(reverse=True)
+#     map(lambda x: datetime.fromisoformat(x[0]), datumi)
+#     print(datumi)
+#
+#     today = datetime.today()
+#     for d2 in datumi:
+#         delta = abs((today - d2[0]).days)
+#         for day in range(delta):
+#
+#     datetime_obj = datetime.fromisoformat(datum)
+#     credits_today = state.users.get
+#     for bill in state.bills:
+#         if bill.id_payer == user_id and bill.category == "Community":
+#             stats[bill.date_payment] = bill.total
+#     return list(stats.values())
