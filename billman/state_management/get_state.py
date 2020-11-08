@@ -313,6 +313,7 @@ def set_billPaid(id_bill, credits):
             if credits:
                 state.users[0].local_credit -= bill.total
             bill.date_payment = str(datetime.today().strftime('%Y-%m-%d'))
+            bill.id_payer=0
             break
     return
 
