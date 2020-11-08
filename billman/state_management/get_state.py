@@ -70,7 +70,7 @@ state = State(
         ),
         Bill(
             id=1,
-            id_payer=1,
+            id_payer=0,
             short_name="ilirija",
             category="Sport",
             reference="SI15",
@@ -120,11 +120,11 @@ state = State(
             recipient_address="Dunajska cesta 50, 1000 Ljubljana",
             BIC_bank_recipient="EX6K3134",
             IBAN_recipient="SI32134988563654321",
-            visible_family="False"
+            visible_family="True"
         ),
         Bill(
             id=4,
-            id_payer=0,
+            id_payer=1,
             short_name="t2",
             category="Other",
             reference="SI11",
@@ -138,7 +138,7 @@ state = State(
             recipient_address="Verovškova 64a, 1000 Ljubljana",
             BIC_bank_recipient="XLBA5174",
             IBAN_recipient="SI54789885636543218",
-            visible_family="False"
+            visible_family="True"
         ),
         Bill(
             id=5,
@@ -250,7 +250,7 @@ def set_transactCredits(id_recipient, amount):
     return
 
 
-def create_community_bill(cause_id, amount) -> Bill:
+def create_community_bill(cause_id, amount) -> int:
     today = datetime.now()
     date_today = today.strftime("%Y-%m-%d")
     date_due = (today + timedelta(14)).strftime("%Y-%m-%d")
@@ -279,7 +279,6 @@ def create_community_bill(cause_id, amount) -> Bill:
                     visible_family=False
                     )
     state.bills.append(new_bill)
-
     return new_bill.id
 
 
