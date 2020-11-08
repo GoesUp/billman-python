@@ -252,48 +252,5 @@ async def get_statistics_dict(user_id:int, state: State = Depends(get_state)):
             "donations": stat4,
             "transactions": stat5,
             "cake1": stat6,
-            "cake2": stat7,
+            "cake2": stat7
             }
-
-@router.get("/statistics/{user_id}/categoryNumber")  #po stevilu
-async def get_stat_byCategory(user_id: int, state: State = Depends(get_state)):
-    cat = {
-        "Community": 0,
-        "Family": 0,
-        "Education": 0,
-        "Food": 0,
-        "Fun": 0,
-        "Sport": 0,
-        "Transport": 0,
-        "Fixed expenses": 0,
-        "Other": 0
-    }
-
-    total_amount = 0
-
-    for bill in state.bills:
-        if bill.id_payer == user_id:
-            cat[bill.category] += 1
-            total_amount += 1
-
-    return cat
-
-@router.get("/statistics/{user_id}/categoryAmount") #po denarju
-async def get_stat_byCategory(user_id: int, state: State = Depends(get_state)):
-    cat = {
-        "Community": 0,
-        "Family": 0,
-        "Education": 0,
-        "Food": 0,
-        "Fun": 0,
-        "Sport": 0,
-        "Transport": 0,
-        "Fixed expenses": 0,
-        "Other": 0
-    }
-
-    for bill in state.bills:
-        if bill.id_payer == user_id:
-            cat[bill.category] += bill.total
-
-    return cat
