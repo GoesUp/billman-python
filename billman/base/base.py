@@ -214,7 +214,7 @@ async  def bill_pay(id_bill: int, credits: bool, state: State = Depends(get_stat
 
 @router.post("/bill/transaction")
 async def bill_transactFam(id_recipient: int, amount: float, state: State = Depends(get_state)):
-    # set_transactCredits(id_recipient, amount)
+    set_transactCredits(id_recipient, amount)
     return
 
 
@@ -312,3 +312,46 @@ async def get_stat_credits(user_id: int, state: State = Depends(get_state)) -> L
         if bill.id_payer == user_id and bill.category == "Community":
             stats[bill.date_payment] = bill.total
     return list(stats.values())
+
+@router.get("/statistics/{user_id}/categoryNumber")  #po stevilu
+async def get_stat_byCategory(user_id: int, state: State = Depends(get_state)):
+    cat = {
+        "Community": 0,
+        "Family": 0,
+        "Education": 0,
+        "Food": 0,
+        "Fun": 0,
+        "Sport": 0,
+        "Transport": 0,
+        "Fixed expenses": 0,
+        "Other": 0
+    }
+
+    total_amount = 0
+
+    for bill in state.bills:
+        if bill.id_payer == user_id:
+            cat[bill.category] += 1
+            total_amount += 1
+
+    return cat
+
+@router.get("/statistics/{user_id}/categoryAmount") #po denarju
+async def get_stat_byCategory(user_id: int, state: State = Depends(get_state)):
+    cat = {
+        "Community": 0,
+        "Family": 0,
+        "Education": 0,
+        "Food": 0,
+        "Fun": 0,
+        "Sport": 0,
+        "Transport": 0,
+        "Fixed expenses": 0,
+        "Other": 0
+    }
+
+    for bill in state.bills:
+        if bill.id_payer == user_id:
+            cat[bill.category] += bill.total
+
+    return cat
