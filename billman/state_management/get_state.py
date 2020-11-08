@@ -92,7 +92,7 @@ state = State(
             short_name="lpp",
             category="Transport",
             reference="SI20",
-            date_payment="",
+            date_payment="2020-11-01",
             date_due="2021-01-01",
             date_issued="2020-11-06",
             total=210.00,
@@ -262,7 +262,7 @@ def create_community_bill(cause_id, amount) -> int:
             # ker bomo takoj placali ta racun, lahko ze v community povisamo zbrani znesek
             com.collected += amount
 
-    new_bill = Bill(id=8,
+    new_bill = Bill(id=len(state.bills),
                     id_payer=0,
                     short_name="community",
                     category="Community",
