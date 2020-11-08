@@ -30,6 +30,7 @@ async def all_categories(state: State = Depends(get_state)) -> List[Category]:
 
 @router.get("/user/{user_id}")
 async def get_user_by_id(user_id: int, state: State = Depends(get_state)) -> User:
+    # vrne uporabnika z id = user_id
     for user in state.users:
         if user.id == user_id:
             return user
@@ -37,6 +38,7 @@ async def get_user_by_id(user_id: int, state: State = Depends(get_state)) -> Use
 
 @router.get("/user/{user_id}/family")
 async def get_user_family(user_id: int, state: State = Depends(get_state)) -> List[User]:
+    # vrne seznam userjev, ki so druzina od userja z id=user_id
     fam = []
     for user in state.users:
         if user.id == user_id:
@@ -45,6 +47,24 @@ async def get_user_family(user_id: int, state: State = Depends(get_state)) -> Li
         if main_user and u2.id in main_user.family:
             fam.append(u2)
     return fam
+
+
+@router.get("/bills/{user_id}/family")
+async def get_bills_for_user_family(user_id: int, state: State = Depends(get_state)) -> List[Bill]:
+    # vrne seznam userjev, ki so druzina od userja z id=user_id
+    bills = []
+    fam = []
+    for user in state.users:
+        if user.id == user_id:
+            main_user = user
+    for u2 in state.users:
+        if main_user and u2.id in main_user.family:
+            fam.append(u2)
+    for bill in state.bills:
+        if bill.date_payment == "" and bill.id_payer in main_user.family:
+            if bill.visible_family:
+                bills.append(bill)
+    return bills
 
 
 @router.get("/user/{user_id}/bills/all")

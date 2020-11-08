@@ -84,7 +84,7 @@ state = State(
             recipient_address="Celovška cesta 3, 1000 Ljubljana",
             BIC_bank_recipient="ABCD7634",
             IBAN_recipient="SI32124578563443210",
-            visible_family="False"
+            visible_family="True"
         ),
         Bill(
             id=2,
@@ -174,7 +174,7 @@ state = State(
             recipient_address="Verovškova 64a, 1000 Ljubljana",
             BIC_bank_recipient="XLBA5174",
             IBAN_recipient="SI54789885636543218",
-            visible_family="False"
+            visible_family="True"
         )
     ],
 )
