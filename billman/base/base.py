@@ -218,7 +218,7 @@ async def bill_transactFam(id_recipient: int, amount: float, state: State = Depe
     return
 
 
-@router.post("/bill/pay/community")
+@router.get("/bill/pay/community")
 async def bill_community(poor_id: int, amount: float, credits: bool, state: State = Depends(get_state)):
     bill_id = create_community_bill(poor_id, amount)
     set_billPaid(bill_id, credits)
@@ -226,102 +226,29 @@ async def bill_community(poor_id: int, amount: float, credits: bool, state: Stat
 
 
 # ----------------------- STATISTIKA
+@router.get("/statistics/{user_id}") #vrne seznam
+async def get_statistics(user_id:int, state: State = Depends(get_state)) -> List[List[float]]:
+    stat1 = get_stat_value_for_month(user_id)
+    stat2 = get_stat_value_for_week(user_id)
+    stat3 = get_stat_credits(user_id)
+    stat4 = get_stat_donations(user_id)
+    stat5 = get_stat_transactions(user_id)
+    return [stat1, stat2, stat3, stat4, stat5]
 
-@router.get("/statistics/{user_id}/value-for-month")
-async def get_stat_value_for_month(user_id: int, state: State = Depends(get_state)) -> List[float]:
-    stats = {}
-    base = datetime.today()
-    date_list = [(base - timedelta(days=x)) for x in range(30)]
-    date_list.reverse()
-
-    for datum in date_list:
-        stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x="0" if datum.month < 10 else "", y="0" if datum.day < 10 else "")] = 0
-    for bill in state.bills:
-        if bill.id_payer == user_id and bill.date_payment in stats.keys():
-            stats[bill.date_payment] = bill.total
-    return list(stats.values())
-
-
-@router.get("/statistics/{user_id}/value-for-week")
-async def get_stat_value_for_week(user_id: int, state: State = Depends(get_state)) -> List[float]:
-    stats = {}
-    base = datetime.today()
-    date_list = [(base - timedelta(days=x)) for x in range(7)]
-    date_list.reverse()
-
-    for datum in date_list:
-        stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x="0" if datum.month < 10 else "", y="0" if datum.day < 10 else "")] = 0
-    for bill in state.bills:
-        if bill.id_payer == user_id and bill.date_payment in stats.keys():
-            stats[bill.date_payment] += bill.total
-    return list(stats.values())
-
-
-@router.get("/statistics/{user_id}/donations")
-async def get_stat_donations(user_id: int, state: State = Depends(get_state)) -> List[float]:
-    stats = {}
-    base = datetime.today()
-    date_list = [(base - timedelta(days=x)) for x in range(30)]
-    date_list.reverse()
-
-    for datum in date_list:
-        stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x="0" if datum.month < 10 else "", y="0" if datum.day < 10 else "")] = 0
-    for bill in state.bills:
-        if bill.id_payer == user_id and bill.category == "Community" and bill.date_payment in stats.keys():
-            stats[bill.date_payment] += bill.total
-    return list(stats.values())
-
-
-
-@router.get("/statistics/{user_id}/credits")
-async def get_stat_credits(user_id: int, state: State = Depends(get_state)) -> List[float]:
-    stats = {}
-    base = datetime.today()
-    date_list = [(base - timedelta(days=x)) for x in range(30)]
-    date_list.reverse()
-    for datum in date_list:
-        stats["{year}-{month}-{day}".format(year=datum.year, month=datum.month, day=datum.day)] = 0
-    for user in state.users:
-        if user.id == user_id:
-            main_user = user
-            break
-    credits_today = main_user.local_credit
-    credits_daily = [credits_today] * 30
-    datumi = []
-    for bill in state.bills:
-        if bill.id_payer == user_id and bill.date_payment != "":
-            datumi.append([bill.date_payment, bill.total])
-    datumi.sort(reverse=True)
-    map(lambda x: datetime.fromisoformat(x[0]), datumi)
-    print("datumi",  datumi)
-
-    dnevi = []
-    today = datetime.today()
-    for d2 in datumi:
-        delta = abs(today - datetime.strptime(d2[0], '%Y-%m-%d')).days
-        dnevi.append((delta, d2[1]))
-    print("dnevi", dnevi)
-
-    for obj in dnevi:
-        for i in range(obj[0], len(credits_daily)):
-            credits_daily[i] += obj[1]
-    credits_daily.reverse()
-    return credits_daily
-
-
-@router.get("/statistics/{user_id}/transactions")
-async def get_stat_transactions(user_id: int, state: State = Depends(get_state)) -> List[float]:
-    stats = {}
-    base = datetime.today()
-    date_list = [(base - timedelta(days=x)) for x in range(30)]
-    date_list.reverse()
-
-    for datum in date_list:
-        stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x="0" if datum.month < 10 else "", y="0" if datum.day < 10 else "")] = 0
-    for bill in state.bills:
-        if bill.id_payer == user_id and bill.date_payment in stats.keys():
-            stats[bill.date_payment] = bill.total
-    return list(stats.values())
+@router.get("/statistics/{user_id}/dict") #vrne slovar
+async def get_statistics_dict(user_id:int, state: State = Depends(get_state)) -> List[List[float]]:
+    stat1 = get_stat_value_for_month(user_id)
+    stat2 = get_stat_value_for_week(user_id)
+    stat3 = get_stat_credits(user_id)
+    stat4 = get_stat_donations(user_id)
+    stat5 = get_stat_transactions(user_id)
+    return {
+            "for_month": stat1,
+            "for_week": stat2,
+            "credits": stat3,
+            "donations": stat4,
+            "transactions": stat5
+            }
 
 @router.get("/statistics/{user_id}/categoryNumber")  #po stevilu
 async def get_stat_byCategory(user_id: int, state: State = Depends(get_state)):

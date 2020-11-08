@@ -385,3 +385,131 @@ def create_user_plus_from_user(user) -> UserPlus:
         if bill.id_payer == user.id and bill.date_payment == "" and bill.visible_family:
             new_user_plus.family_bills.append(bill)
     return new_user_plus
+
+def get_stat_value_for_month(user_id):
+    stats = {}
+    base = datetime.today()
+    date_list = [(base - timedelta(days=x)) for x in range(30)]
+    date_list.reverse()
+
+    for datum in date_list:
+        stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x="0" if datum.month < 10 else "", y="0" if datum.day < 10 else "")] = 0
+    for bill in state.bills:
+        if bill.id_payer == user_id and bill.date_payment in stats.keys():
+            stats[bill.date_payment] = bill.total
+    return list(stats.values())
+
+
+def get_stat_value_for_week(user_id):
+    stats = {}
+    base = datetime.today()
+    date_list = [(base - timedelta(days=x)) for x in range(7)]
+    date_list.reverse()
+
+    for datum in date_list:
+        stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x="0" if datum.month < 10 else "", y="0" if datum.day < 10 else "")] = 0
+    for bill in state.bills:
+        if bill.id_payer == user_id and bill.date_payment in stats.keys():
+            stats[bill.date_payment] += bill.total
+    return list(stats.values())
+
+def get_stat_donations(user_id):
+    stats = {}
+    base = datetime.today()
+    date_list = [(base - timedelta(days=x)) for x in range(30)]
+    date_list.reverse()
+
+    for datum in date_list:
+        stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x="0" if datum.month < 10 else "", y="0" if datum.day < 10 else "")] = 0
+    for bill in state.bills:
+        if bill.id_payer == user_id and bill.category == "Community" and bill.date_payment in stats.keys():
+            stats[bill.date_payment] += bill.total
+    return list(stats.values())
+
+def get_stat_credits(user_id):
+    stats = {}
+    base = datetime.today()
+    date_list = [(base - timedelta(days=x)) for x in range(30)]
+    date_list.reverse()
+    for datum in date_list:
+        stats["{year}-{month}-{day}".format(year=datum.year, month=datum.month, day=datum.day)] = 0
+    for user in state.users:
+        if user.id == user_id:
+            main_user = user
+            break
+    credits_today = main_user.local_credit
+    credits_daily = [credits_today] * 30
+    datumi = []
+    for bill in state.bills:
+        if bill.id_payer == user_id and bill.date_payment != "":
+            datumi.append([bill.date_payment, bill.total])
+    datumi.sort(reverse=True)
+    map(lambda x: datetime.fromisoformat(x[0]), datumi)
+    print("datumi",  datumi)
+
+    dnevi = []
+    today = datetime.today()
+    for d2 in datumi:
+        delta = abs(today - datetime.strptime(d2[0], '%Y-%m-%d')).days
+        dnevi.append((delta, d2[1]))
+    print("dnevi", dnevi)
+
+    for obj in dnevi:
+        for i in range(obj[0], len(credits_daily)):
+            credits_daily[i] += obj[1]
+    credits_daily.reverse()
+    return credits_daily
+
+def get_stat_transactions(user_id):
+    stats = {}
+    base = datetime.today()
+    date_list = [(base - timedelta(days=x)) for x in range(30)]
+    date_list.reverse()
+
+    for datum in date_list:
+        stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x="0" if datum.month < 10 else "", y="0" if datum.day < 10 else "")] = 0
+    for bill in state.bills:
+        if bill.id_payer == user_id and bill.date_payment in stats.keys():
+            stats[bill.date_payment] = bill.total
+    return list(stats.values())
+
+def get_stat_byCategory(user_id):
+    cat = {
+        "Community": 0,
+        "Family": 0,
+        "Education": 0,
+        "Food": 0,
+        "Fun": 0,
+        "Sport": 0,
+        "Transport": 0,
+        "Fixed expenses": 0,
+        "Other": 0
+    }
+
+    total_amount = 0
+
+    for bill in state.bills:
+        if bill.id_payer == user_id:
+            cat[bill.category] += 1
+            total_amount += 1
+
+    return cat
+
+def get_stat_byCategory(user_id):
+    cat = {
+        "Community": 0,
+        "Family": 0,
+        "Education": 0,
+        "Food": 0,
+        "Fun": 0,
+        "Sport": 0,
+        "Transport": 0,
+        "Fixed expenses": 0,
+        "Other": 0
+    }
+
+    for bill in state.bills:
+        if bill.id_payer == user_id:
+            cat[bill.category] += bill.total
+
+    return cat
