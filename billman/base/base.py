@@ -308,5 +308,17 @@ async def get_stat_credits(user_id: int, state: State = Depends(get_state)) -> L
     credits_daily.reverse()
     return credits_daily
 
-#
-# @router.get("/statistics/{user_id}/community")
+
+@router.get("/statistics/{user_id}/transactions")
+async def get_stat_transactions(user_id: int, state: State = Depends(get_state)) -> List[float]:
+    stats = {}
+    base = datetime.today()
+    date_list = [(base - timedelta(days=x)) for x in range(30)]
+    date_list.reverse()
+
+    for datum in date_list:
+        stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x="0" if datum.month < 10 else "", y="0" if datum.day < 10 else "")] = 0
+    for bill in state.bills:
+        if bill.id_payer == user_id and bill.date_payment in stats.keys():
+            stats[bill.date_payment] += 1
+    return list(stats.values())
