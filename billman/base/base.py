@@ -268,7 +268,7 @@ async def get_stat_donations(user_id: int, state: State = Depends(get_state)) ->
         stats["{year}-{x}{month}-{y}{day}".format(year=datum.year, month=datum.month, day=datum.day, x="0" if datum.month < 10 else "", y="0" if datum.day < 10 else "")] = 0
     for bill in state.bills:
         if bill.id_payer == user_id and bill.category == "Community" and bill.date_payment in stats.keys():
-            stats[bill.date_payment] = bill.total
+            stats[bill.date_payment] += bill.total
     return list(stats.values())
 
 
@@ -308,4 +308,5 @@ async def get_stat_credits(user_id: int, state: State = Depends(get_state)) -> L
     credits_daily.reverse()
     return credits_daily
 
-
+#
+# @router.get("/statistics/{user_id}/community")

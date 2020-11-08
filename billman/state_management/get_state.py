@@ -261,7 +261,7 @@ def create_community_bill(cause_id, amount) -> int:
             # ker bomo takoj placali ta racun, lahko ze v community povisamo zbrani znesek
             com.collected += amount
 
-    new_bill = Bill(id=8,
+    new_bill = Bill(id=len(state.bills),
                     id_payer=0,
                     short_name="community",
                     category="Community",
