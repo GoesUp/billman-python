@@ -219,8 +219,8 @@ async def bill_transactFam(id_recipient: int, amount: float, state: State = Depe
 
 
 @router.post("/bill/pay/community")
-async def bill_community(cause_id: int, amount: float, credits: bool, state: State = Depends(get_state)):
-    bill_id = create_community_bill(cause_id, amount)
+async def bill_community(poor_id: int, amount: float, credits: bool, state: State = Depends(get_state)):
+    bill_id = create_community_bill(poor_id, amount)
     set_billPaid(bill_id, credits)
     return "Thank you for your help"
 

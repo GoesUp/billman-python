@@ -4,6 +4,7 @@ from typing import List, Set
 
 class User(BaseModel):
     id: int
+    desc: str = ""
     name: str
     surname: str
     address: str

@@ -74,6 +74,7 @@ state = State(
         Community(id=0,
                   poor=User(
                       id=3,
+                      desc="Izgubil celotno družino in premoženje v hudi nesreči, ko je asteroid zadel Zemljo.",
                       name="Mr.",
                       surname="Dinosaur",
                       address="Barn 121",
@@ -92,6 +93,7 @@ state = State(
         Community(id=1,
                   poor=User(
                       id=4,
+                      desc="Lastnik ga je zapustil in ostal je brez vsega.",
                       name="Danny",
                       surname="Dog",
                       address="Barn 113",
@@ -110,6 +112,7 @@ state = State(
         Community(id=2,
                   poor=User(
                       id=5,
+                      desc="Letina je bila slaba zaradi povodni, kmetija je šla v stečaj, ni več korenja, rubeži grozijo, da ji bodo odvzeli hišo.",
                       name="Mrs.",
                       surname="Rabbit",
                       address="Barn 16a",
@@ -327,14 +330,13 @@ def set_transactCredits(id_recipient, amount):
     return
 
 
-def create_community_bill(cause_id, amount) -> int:
+def create_community_bill(poor_id, amount) -> int:
     today = datetime.now()
     date_today = today.strftime("%Y-%m-%d")
     date_due = (today + timedelta(14)).strftime("%Y-%m-%d")
     cause = "Provide help"
     for com in state.community:
-        if com.id == cause_id:
-            cause = com.cause
+        if com.poor.id == poor_id:
             # ker bomo takoj placali ta racun, lahko ze v community povisamo zbrani znesek
             com.collected += amount
 
@@ -347,7 +349,7 @@ def create_community_bill(cause_id, amount) -> int:
                     date_due=date_due,
                     date_issued=date_today,
                     total=amount,
-                    purpose=cause,
+                    purpose="Provide help",
                     code_purpose="HELP",
                     recipient="Humanitarno društvo",
                     recipient_address="Ozka ulica 54, 1200 Moravče",
