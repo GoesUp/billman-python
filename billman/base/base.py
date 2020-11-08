@@ -237,7 +237,7 @@ async def get_statistics(user_id:int, state: State = Depends(get_state)) -> List
 
 
 @router.get("/statistics/{user_id}/dict") #vrne slovar
-async def get_statistics_dict(user_id:int, state: State = Depends(get_state)) -> List[List[float]]:
+async def get_statistics_dict(user_id:int, state: State = Depends(get_state)):
     stat1 = get_stat_value_for_month(user_id)
     stat2 = get_stat_value_for_week(user_id)
     stat3 = get_stat_credits(user_id)
