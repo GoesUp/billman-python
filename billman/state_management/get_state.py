@@ -513,3 +513,46 @@ def get_stat_byCategory(user_id):
             cat[bill.category] += bill.total
 
     return cat
+
+
+def get_stat_byCategory_num(user_id):
+    cat = {
+        "Community": 0,
+        "Family": 0,
+        "Education": 0,
+        "Food": 0,
+        "Fun": 0,
+        "Sport": 0,
+        "Transport": 0,
+        "Fixed expenses": 0,
+        "Other": 0
+    }
+
+    total_amount = 0
+
+    for bill in state.bills:
+        if bill.id_payer == user_id:
+            cat[bill.category] += 1
+            total_amount += 1
+
+    return cat
+
+
+def get_stat_byCategory(user_id):
+    cat = {
+        "Community": 0,
+        "Family": 0,
+        "Education": 0,
+        "Food": 0,
+        "Fun": 0,
+        "Sport": 0,
+        "Transport": 0,
+        "Fixed expenses": 0,
+        "Other": 0
+    }
+
+    for bill in state.bills:
+        if bill.id_payer == user_id:
+            cat[bill.category] += bill.total
+
+    return cat

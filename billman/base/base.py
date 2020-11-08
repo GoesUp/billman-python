@@ -235,6 +235,7 @@ async def get_statistics(user_id:int, state: State = Depends(get_state)) -> List
     stat5 = get_stat_transactions(user_id)
     return [stat1, stat2, stat3, stat4, stat5]
 
+
 @router.get("/statistics/{user_id}/dict") #vrne slovar
 async def get_statistics_dict(user_id:int, state: State = Depends(get_state)) -> List[List[float]]:
     stat1 = get_stat_value_for_month(user_id)
@@ -242,12 +243,16 @@ async def get_statistics_dict(user_id:int, state: State = Depends(get_state)) ->
     stat3 = get_stat_credits(user_id)
     stat4 = get_stat_donations(user_id)
     stat5 = get_stat_transactions(user_id)
+    stat6 = get_stat_byCategory(user_id)
+    stat7 = get_stat_byCategory_num(user_id)
     return {
             "for_month": stat1,
             "for_week": stat2,
             "credits": stat3,
             "donations": stat4,
-            "transactions": stat5
+            "transactions": stat5,
+            "cake1": stat6,
+            "cake2": stat7,
             }
 
 @router.get("/statistics/{user_id}/categoryNumber")  #po stevilu
