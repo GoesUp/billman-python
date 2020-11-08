@@ -41,7 +41,18 @@ class Bill(BaseModel):
     IBAN_recipient: str
     visible_family: bool
 
-      
+
+class UserPlus(BaseModel):
+    id: int
+    name: str
+    surname: str
+    address: str
+    banc_acc_number: str
+    local_credit: float = 0.0
+    family: Set[int]
+    family_bills: List[Bill]
+
+
 class State(BaseModel):
     users: List[User]
     categories: List[Category]

@@ -42,7 +42,7 @@ async def get_user_by_id(user_id: int, state: State = Depends(get_state)) -> Use
 
 
 @router.get("/user/{user_id}/family")
-async def get_user_family(user_id: int, state: State = Depends(get_state)) -> List[User]:
+async def get_user_family(user_id: int, state: State = Depends(get_state)) -> List[UserPlus]:
     # vrne seznam userjev, ki so druzina od userja z id=user_id
     fam = []
     for user in state.users:
@@ -50,7 +50,7 @@ async def get_user_family(user_id: int, state: State = Depends(get_state)) -> Li
             main_user = user
     for u2 in state.users:
         if main_user and u2.id in main_user.family:
-            fam.append(u2)
+            fam.append(create_user_plus_from_user(u2))
     return fam
 
 
@@ -214,7 +214,7 @@ async  def bill_pay(id_bill: int, credits: bool, state: State = Depends(get_stat
 
 @router.post("/bill/transaction")
 async def bill_transactFam(id_recipient: int, amount: float, state: State = Depends(get_state)):
-    set_transactCredits(id_recipient, amount)
+    # set_transactCredits(id_recipient, amount)
     return
 
 

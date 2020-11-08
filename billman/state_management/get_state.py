@@ -56,7 +56,7 @@ state = State(
             short_name="univerzalj",
             category="Education",
             reference="SI12",
-            date_payment="", #ni placan - prazen string
+            date_payment="",  # ni placan - prazen string
             date_due="2020-11-12",
             date_issued="2020-10-12",
             total=21.02,
@@ -110,7 +110,7 @@ state = State(
             short_name="petrol",
             category="Fun",
             reference="SI20",
-            date_payment="", #ni placan - prazen string
+            date_payment="",  # ni placan - prazen string
             date_due="2021-11-11",
             date_issued="2020-07-12",
             total=17.64,
@@ -146,7 +146,7 @@ state = State(
             short_name="petrol",
             category="Transport",
             reference="SI20",
-            date_payment="", #ni placan - prazen string
+            date_payment="",  # ni placan - prazen string
             date_due="2020-11-08",
             date_issued="2020-10-12",
             total=112.00,
@@ -191,6 +191,7 @@ def get_byCategory(cat):
             categoryBills.append(bill)
     return categoryBills
 
+
 def get_billDateDue():
     dueDateBills = []
     for bill in state.bills:
@@ -198,6 +199,7 @@ def get_billDateDue():
             dueDateBills.append(bill)
     dueDateBills.sort(key=lambda r: r.date_due, reverse=True)
     return dueDateBills
+
 
 def get_billDatePayed():
     payedDateBills = []
@@ -207,15 +209,18 @@ def get_billDatePayed():
     payedDateBills.sort(key=lambda r: r.date_payment, reverse=True)
     return payedDateBills
 
+
 def get_byTotalAsc():
     billsAsc = state.bills
     billsAsc.sort(key=lambda r: r.total)
     return billsAsc
 
+
 def get_byTotalDesc():
     billsDesc = state.bills
     billsDesc.sort(key=lambda r: r.total, reverse=True)
     return billsDesc
+
 
 def get_family(option):
     seen = []
@@ -272,7 +277,24 @@ def create_community_bill(cause_id, amount) -> Bill:
                     BIC_bank_recipient="ERG23422",
                     IBAN_recipient="SI5614134325235",
                     visible_family=False
-    )
+                    )
     state.bills.append(new_bill)
 
     return new_bill.id
+
+
+def create_user_plus_from_user(user) -> UserPlus:
+    new_user_plus = UserPlus(
+        id=user.id,
+        name=user.name,
+        surname=user.surname,
+        address=user.address,
+        banc_acc_number=user.banc_acc_number,
+        local_credit=user.local_credit,
+        family=user.family,
+        family_bills=[]
+    )
+    for bill in state.bills:
+        if bill.id_payer == user.id and bill.date_payment == "" and bill.visible_family:
+            new_user_plus.family_bills.append(bill)
+    return new_user_plus
