@@ -5,8 +5,8 @@ state = State(
     users=[
         User(
             id=0,
-            name="Gregor",
-            surname="Gabrovšek",
+            name="Peppa",
+            surname="Pig",
             address="Čokoladna ulica nekje",
             banc_acc_number="SI56293847932865923",
             local_credit="3.1",
@@ -14,8 +14,8 @@ state = State(
         ),
         User(
             id=1,
-            name="Miki",
-            surname="Miška",
+            name="George",
+            surname="Pig",
             address="Disneyland 16a",
             banc_acc_number="SI563548463245356",
             local_credit="8327947197",
@@ -23,8 +23,8 @@ state = State(
         ),
         User(
             id=2,
-            name="Mojca",
-            surname="Pokrajculja",
+            name="Mummy",
+            surname="Pig",
             address="Lonček 113",
             banc_acc_number="SI563453636865923",
             local_credit="50.50",
@@ -70,7 +70,7 @@ state = State(
         ),
         Bill(
             id=1,
-            id_payer=0,
+            id_payer=1,
             short_name="ilirija",
             category="Sport",
             reference="SI15",
@@ -106,7 +106,7 @@ state = State(
         ),
         Bill(
             id=3,
-            id_payer=0,
+            id_payer=2,
             short_name="petrol",
             category="Fun",
             reference="SI20",

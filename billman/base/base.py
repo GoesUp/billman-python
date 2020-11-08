@@ -284,8 +284,11 @@ async def get_stat_donations(user_id: int, state: State = Depends(get_state)) ->
 #     for datum in date_list:
 #         stats["{year}-{month}-{day}".format(year=datum.year, month=datum.month, day=datum.day)] = 0
 #
-#     user = get_user_by_id(user_id)
-#     credits_today = user.local_credit
+#     for user in state.users:
+#         if user.id == user_id:
+#             main_user = user
+#             break
+#     credits_today = main_user.local_credit
 #     statistics = [credits_today] * 30
 #
 #     datumi = []
@@ -296,10 +299,12 @@ async def get_stat_donations(user_id: int, state: State = Depends(get_state)) ->
 #     map(lambda x: datetime.fromisoformat(x[0]), datumi)
 #     print(datumi)
 #
+#     dnevi = []
 #     today = datetime.today()
 #     for d2 in datumi:
 #         delta = abs((today - d2[0]).days)
-#         for day in range(delta):
+#         dnevi.append(delta)
+#     print(dnevi)
 #
 #     datetime_obj = datetime.fromisoformat(datum)
 #     credits_today = state.users.get
