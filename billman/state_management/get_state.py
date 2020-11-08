@@ -9,7 +9,7 @@ state = State(
             surname="Pig",
             address="Čokoladna ulica nekje",
             banc_acc_number="SI56293847932865923",
-            local_credit="3.1",
+            local_credit=3.1,
             family={1, 2}
         ),
         User(
@@ -18,7 +18,7 @@ state = State(
             surname="Pig",
             address="Disneyland 16a",
             banc_acc_number="SI563548463245356",
-            local_credit="8327947197",
+            local_credit=8327.94,
             family={0, 2}
         ),
         User(
@@ -27,9 +27,37 @@ state = State(
             surname="Pig",
             address="Lonček 113",
             banc_acc_number="SI563453636865923",
-            local_credit="50.50",
+            local_credit=50.50,
             family={0, 1}
+        ),
+        User(
+            id=3,
+            name="Mr.",
+            surname="Dinosaur",
+            address="Barn 121",
+            banc_acc_number="452",
+            local_credit=-97.0,
+            family=set()
+        ),
+        User(
+            id=4,
+            name="Danny",
+            surname="Dog",
+            address="Barn 113",
+            banc_acc_number="SI56334536865923",
+            local_credit=1.0,
+            family=set()
+        ),
+        User(
+            id=5,
+            name="Mrs.",
+            surname="Rabbit",
+            address="Barn 16a",
+            banc_acc_number="SI563548456765356",
+            local_credit=17.0,
+            family=set()
         )
+
     ],
     categories=[
         Category(name="Family"),
@@ -43,11 +71,59 @@ state = State(
         Category(name="Other"),
     ],
     community=[
-        Community(id=0, goal=100.5, collected=50.25, cause="Družini vidmajer je toča uničila streho. Pomagajte!"),
-        Community(id=1, goal=800.0, cause="Omogočimo otrokom izlet v Črno goro!"),
-        Community(id=2, goal=150, cause="Zbiramo sredstva za male živali..."),
-        Community(id=3, goal=1054.52, collected=72, cause="Gregor, Maja in Barbara so lačni. Darujte!"),
-        Community(id=4, goal=100, collected=100, cause="Stara mama Helga zbira denar za flamethrower7000"),
+        Community(id=0,
+                  poor=User(
+                      id=3,
+                      name="Mr.",
+                      surname="Dinosaur",
+                      address="Barn 121",
+                      banc_acc_number="452",
+                      local_credit=-97.0,
+                      family=set()
+                  ),
+                  goal=False,
+                  bills=[
+                      Cause(cause="Račun za elektriko", value=30.0),
+                      Cause(cause="Najemnina", value=150.0),
+                      Cause(cause="Zdravila za miltiplo sklerozo", value=15.0)
+                  ],
+                  total=195.0,
+                  collected=10.0),
+        Community(id=1,
+                  poor=User(
+                      id=4,
+                      name="Danny",
+                      surname="Dog",
+                      address="Barn 113",
+                      banc_acc_number="SI56334536865923",
+                      local_credit=1,
+                      family=set()
+                  ),
+                  goal=False,
+                  bills=[
+                      Cause(cause="Popravilo avtomobila po nesreči", value=95.0),
+                      Cause(cause="Komunalne storitve", value=25.0),
+                      Cause(cause="Sanacija vodovodne napeljave", value=40.0)
+                  ],
+                  total=160.0,
+                  collected=85.0),
+        Community(id=2,
+                  poor=User(
+                      id=5,
+                      name="Mrs.",
+                      surname="Rabbit",
+                      address="Barn 16a",
+                      banc_acc_number="SI563548456765356",
+                      local_credit=17,
+                      family=set()
+                  ),
+                  goal=False,
+                  bills=[
+                      Cause(cause="Pripomočki za šolanje na daljavo", value=55.0),
+                      Cause(cause="Račun za plin", value=210.0),
+                  ],
+                  total=265.0,
+                  collected=45.0)
     ],
     bills=[
         Bill(
@@ -280,6 +356,15 @@ def create_community_bill(cause_id, amount) -> int:
                     )
     state.bills.append(new_bill)
     return new_bill.id
+
+
+def make_com_plus(com) -> CommunityPlus:
+    for user in state.users:
+        if user.id == com.poor:
+            revni = user
+            break
+    new_com = CommunityPlus(poor=revni, goal=com.goal, collected=com.collected, cause=com.cause)
+    return new_com
 
 
 def create_user_plus_from_user(user) -> UserPlus:

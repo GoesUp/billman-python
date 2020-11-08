@@ -15,12 +15,19 @@ class User(BaseModel):
 class Category(BaseModel):
     name: str
 
-      
+
+class Cause(BaseModel):
+    cause: str
+    value: float
+
+
 class Community(BaseModel):
     id: int
-    goal: float
+    poor: User
+    bills: List[Cause]
+    total: float
     collected: float = 0.0
-    cause: str
+    goal: bool
 
 
 class Bill(BaseModel):
@@ -51,6 +58,13 @@ class UserPlus(BaseModel):
     local_credit: float = 0.0
     family: Set[int]
     family_bills: List[Bill]
+
+
+class CommunityPlus(BaseModel):
+    poor: User
+    goal: bool
+    collected: float = 0.0
+    cause: str
 
 
 class State(BaseModel):

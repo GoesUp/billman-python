@@ -117,16 +117,16 @@ async def get_bills_recent(user_id: int, state: State = Depends(get_state)) -> L
 async def get_active_community(state: State = Depends(get_state)) -> List[Community]:
     community = []
     for com in state.community:
-        if com.collected < com.goal:
+        if not com.goal:
             community.append(com)
     return community
 
 
 @router.get("/community/closed")
-async def get_active_community(state: State = Depends(get_state)) -> List[Community]:
+async def get_active_community(state: State = Depends(get_state)) -> List[CommunityPlus]:
     community = []
     for com in state.community:
-        if com.collected >= com.goal:
+        if com.goal:
             community.append(com)
     return community
 
