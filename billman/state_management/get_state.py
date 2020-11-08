@@ -1,5 +1,5 @@
 from billman.state_management.state import *
-from datetime import datetime
+from datetime import datetime, timedelta
 
 state = State(
     users=[
@@ -235,6 +235,7 @@ def set_billPaid(id_bill, credits):
             break
     return
 
+
 def set_transactCredits(id_recipient, amount):
     for user in state.users:
         if user.id == id_recipient:
@@ -244,7 +245,34 @@ def set_transactCredits(id_recipient, amount):
     return
 
 
-async def get_user_by_id(user_id) -> User:
-    for user in state.users:
-        if user.id == user_id:
-            return user
+def create_community_bill(cause_id, amount) -> Bill:
+    today = datetime.now()
+    date_today = today.strftime("%Y-%m-%d")
+    date_due = (today + timedelta(14)).strftime("%Y-%m-%d")
+    cause = "Provide help"
+    for com in state.community:
+        if com.id == cause_id:
+            cause = com.cause
+            # ker bomo takoj placali ta racun, lahko ze v community povisamo zbrani znesek
+            com.collected += amount
+
+    new_bill = Bill(id=8,
+                    id_payer=0,
+                    short_name="community",
+                    category="Community",
+                    reference="SI11",
+                    date_payment="",
+                    date_due=date_due,
+                    date_issued=date_today,
+                    total=amount,
+                    purpose=cause,
+                    code_purpose="HELP",
+                    recipient="Humanitarno društvo",
+                    recipient_address="Ozka ulica 54, 1200 Moravče",
+                    BIC_bank_recipient="ERG23422",
+                    IBAN_recipient="SI5614134325235",
+                    visible_family=False
+    )
+    state.bills.append(new_bill)
+
+    return new_bill.id

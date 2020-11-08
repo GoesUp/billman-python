@@ -28,6 +28,11 @@ async def all_categories(state: State = Depends(get_state)) -> List[Category]:
     return state.categories
 
 
+@router.get("/community")
+async def all_categories(state: State = Depends(get_state)) -> List[Category]:
+    return state.community
+
+
 @router.get("/user/{user_id}")
 async def get_user_by_id(user_id: int, state: State = Depends(get_state)) -> User:
     # vrne uporabnika z id = user_id
@@ -211,6 +216,13 @@ async  def bill_pay(id_bill: int, credits: bool, state: State = Depends(get_stat
 async def bill_transactFam(id_recipient: int, amount: float, state: State = Depends(get_state)):
     set_transactCredits(id_recipient, amount)
     return
+
+
+@router.post("/bill/pay/community")
+async def bill_community(cause_id: int, amount: float, credits: bool, state: State = Depends(get_state)):
+    bill_id = create_community_bill(cause_id, amount)
+    set_billPaid(bill_id, credits)
+    return "Thank you for your help"
 
 
 # ----------------------- STATISTIKA
